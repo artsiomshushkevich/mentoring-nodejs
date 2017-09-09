@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server-side part of the app for Node.js mentoring program",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artsiomshushkevich/mentoring-nodejs.git"
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "Artsiom Shushkevich <artemshushkevich@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artsiomshushkevich/mentoring-nodejs/issues"
+  },
+  "homepage": "https://github.com/artsiomshushkevich/mentoring-nodejs#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
+}
