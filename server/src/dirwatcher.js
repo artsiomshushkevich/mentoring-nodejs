@@ -7,8 +7,8 @@ import {EventEmitter} from 'events';
 export default class DirWatcher extends EventEmitter {
     constructor() {
         super();
-        this.intervalTimeout = null;
-        this.dirSize = null;
+        this._intervalTimeout = null;
+        this._dirSize = null;
     }
 
     watch(path, delay) {
@@ -17,27 +17,26 @@ export default class DirWatcher extends EventEmitter {
                 let files = fs.readdirSync(path, 'utf8');
                 let newDirSize = 0;
                 
-                for (let i = 0; i < files.length; i++) {
-                    newDirSize += fs.statSync(pathResolver.join(path, files[i])).size;
-                }
-    
-                if (this.dirSize !== null && this.dirSize !== newDirSize) {
+                files.forEach(function(file) {
+                    newDirSize += fs.statSync(pathResolver.join(path, file)).size;
+                }); 
+            
+                if (this._dirSize !== null && this._dirSize !== newDirSize) {
                     this.emit('dirwatcher:changed');
                 }
 
-                console.log ('old value %d new value', this.dirSize, newDirSize);
-                this.dirSize = newDirSize;
-                
+                this._dirSize = newDirSize;
             } catch (error) {
+                console.log(error.message);
                 this.unwatch();
-            }
-            
+            } 
         };
 
-        this.intervalTimeout = setInterval(intervalCallback, delay, path);
+        this._intervalTimeout = setInterval(intervalCallback, delay, path);
+        return this;
     }
 
     unwatch() {
-        clearInterval(this.intervalTimeout);
+        clearInterval(this._intervalTimeout);
     }
 }
