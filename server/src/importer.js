@@ -2,7 +2,7 @@
 
 import DirWatcher from './dirwatcher';
 import fs from 'fs';
-import pathResolver from 'path'
+import pathResolver from 'path';
 import Papa from 'papaparse';
 import promisify from 'util.promisify';
 

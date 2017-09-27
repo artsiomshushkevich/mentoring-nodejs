@@ -1,8 +1,8 @@
 'use strict';
 
-import * as fs from 'fs';
-import * as pathResolver from 'path';
-import {EventEmitter} from 'events';
+import fs from 'fs';
+import pathResolver from 'path';
+import EventEmitter from 'events';
 
 export default class DirWatcher extends EventEmitter {
     constructor() {
