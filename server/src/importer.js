@@ -1,9 +1,13 @@
 'use strict';
 
 import DirWatcher from './dirwatcher';
-import * as fs from 'fs';
-import * as pathResolver from 'path'
-import * as Papa from 'papaparse';
+import fs from 'fs';
+import pathResolver from 'path'
+import Papa from 'papaparse';
+import promisify from 'util.promisify';
+
+const readFileAsync = promisify(fs.readFile);
+const readdirAsync = promisify(fs.readdir);
 
 export default class Importer {
     constructor(dirWatcher) {
@@ -11,24 +15,32 @@ export default class Importer {
     }
 
     importSync(path) {
-        let resultArrayOfFilesEntries = [];
         let files = fs.readdirSync(path, 'utf8');
         
-        files.forEach((file) => {
+        let resultArrayOfFilesEntries = files.map((file) => {
             let fileContent = fs.readFileSync(pathResolver.join(path, file));
-            let parsedData = Papa.parse(fileContent.toString());
-            
-            resultArrayOfFilesEntries.push({
-                file: file,
-                entries: parsedData.data
-            });
+            return Papa.parse(fileContent.toString()).data;
         });
     
         return JSON.stringify(resultArrayOfFilesEntries);
     }
 
     import(path) {
+        return readdirAsync(path)
+            .then((files) => {
+                let readFileAsyncPromises = files.map((file) => {
+                    return readFileAsync(pathResolver.join(path, file));
+                });
 
+                return Promise.all(readFileAsyncPromises);
+            })
+            .then((fileContents) => {
+                var resultArrayOfFilesEntries = fileContents.map((fileContent) => {
+                    return Papa.parse(fileContent.toString()).data;
+                });
+
+                return JSON.stringify(resultArrayOfFilesEntries);
+            });
     }
 
     get dirWatcher() {
