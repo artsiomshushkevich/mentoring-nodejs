@@ -44,7 +44,7 @@ export default class Importer {
     }
 
     get dirWatcher() {
-        return this._dirWatcher ? this._dirWatcher : new DirWatcher();
+        return this._dirWatcher || new DirWatcher();
     }
 
     set dirWatcher(dirwatcher) {

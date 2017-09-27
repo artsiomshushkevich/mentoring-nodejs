@@ -26,5 +26,9 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "papaparse": "^4.3.6",
+    "util.promisify": "^1.0.0"
   }
 }
