@@ -2,8 +2,10 @@ const minimist = require('minimist');
 const through = require('through2');
 const request = require('request');
 const fs = require('fs');
-//const path = require('path');
 const csv = require('csv');
+const promisify = require('util.promisify');
+const readdirAsync = promisify(fs.readdir);
+const mergeStream = require('merge-stream');
 
 const ACTIONS = {
     IO: 'io'
@@ -50,9 +52,33 @@ function transformFile(filePath, shouldSave) {
         .pipe(destinationStream);
 }
 
+function cssBundler(dirPath) {
+    const BUNDLE_NAME = 'bundle.css';
+    const EXTERNAL_CSS_URL = 'https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css';
 
+    readdirAsync(dirPath)
+        .then((files) => {
+            const cssFiles = files.filter(file => file.indexOf('.css') !== -1);
+            const writer = fs.createWriteStream(dirPath + BUNDLE_NAME);
 
-transformFile(__dirname + '/MOCK_DATA.csv', true)
+            let mergedStreams;
+            cssFiles.forEach((file) => {
+                const reader = fs.createReadStream(dirPath + file);
+
+                if (mergedStreams) {
+                    mergedStreams.add(reader)
+                } else {
+                    mergedStreams = mergeStream(reader);
+                }
+            });
+
+            mergedStreams.add(request(EXTERNAL_CSS_URL));
+            mergedStreams.pipe(writer);
+        });
+}
+
+cssBundler(__dirname + '/temp/');
+//transformFile(__dirname + '/MOCK_DATA.csv', true)
 
 //transform();
 //inputOutput(__dirname + '/streams.js');
