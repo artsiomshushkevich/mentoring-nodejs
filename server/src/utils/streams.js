@@ -11,8 +11,7 @@ const readdirAsync = promisify(fs.readdir);
 
 function inputOutput(filePath) {
     if (!filePath) {
-        throw Error('ERROR! File path is not specified!'); 
-        return;
+        throw Error('ERROR! File path is not specified!');
     }
 
     let processedFilePath = path.resolve(filePath);
@@ -34,12 +33,10 @@ function transform() {
 function transformFile(filePath, shouldSave) {
     if (!filePath) {
         throw Error('ERROR! File path is not specified!'); 
-        return;
     }
 
     if (filePath.indexOf('.csv') === -1) {
-        throw Error('ERROR! Specified file path does not refer to csv-file');
-        return;
+        throw Error('ERROR! Specified file path does not refer to CSV file!');
     }
 
     let processedFilePath = path.resolve(filePath);
@@ -69,31 +66,26 @@ function transformFile(filePath, shouldSave) {
 
 function cssBundler(dirPath) {
     if (!dirPath) {
-        throw Error('path is not specified');
-        return;
+        throw Error('ERROR! Directory path is not specified!');
     }
 
-    const BUNDLE_NAME = 'bundle.css';
-    const EXTERNAL_CSS_URL = 'https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css';
-    const processedDirPath = path.resolve(dirPath);
+    let bundleName = 'bundle.css';
+    let externalCssUrl = 'https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css';
+    let processedDirPath = path.resolve(dirPath);
 
     readdirAsync(processedDirPath)
         .then((files) => {
-            const cssFiles = files.filter(file => file.indexOf('.css') !== -1);
-            const writer = fs.createWriteStream(processedDirPath + '/' + BUNDLE_NAME);
+            let cssFiles = files.filter(file => file.indexOf('.css') !== -1);
+            let writer = fs.createWriteStream(processedDirPath + '/' + bundleName);
+            let mergedStreams = mergeStream();
 
-            let mergedStreams;
             cssFiles.forEach((file) => {
-                const reader = fs.createReadStream(processedDirPath + '/' + file);
-
-                if (mergedStreams) {
-                    mergedStreams.add(reader)
-                } else {
-                    mergedStreams = mergeStream(reader);
-                }
+                let reader = fs.createReadStream(processedDirPath + '/' + file);
+                mergedStreams.add(reader) 
             });
             
-            mergedStreams.add(request(EXTERNAL_CSS_URL));
+            mergedStreams.add(request(externalCssUrl));
+            
             mergedStreams.pipe(writer);
         });
 }
@@ -101,13 +93,15 @@ function cssBundler(dirPath) {
 function printHelpMessage() {
     console.log(`
 Available options:
-    1. --action (-a) - type of action which should be invoked.
+    1. --action (-a) - type of action which should be invoked;
         Available values:
-            1. io - sends data from file to process.stdout;
-            2. transform - gets data from process.stdin, converts to upper-case and sends process.stdout;
-            3. transform-file - gets data from .csv file and transforms it to .json.
-            4. bundle-css - merges all css-files from dircetory into one
-    2. --help (-h) - help information
+            - io - sends data from file (--file (-f) param) to process.stdout;
+            - transform - gets data from process.stdin, converts it to upper case and sends to process.stdout;
+            - transform-file - gets data from CSV file (--file (-f) param) and transforms it to JSON 
+        (if --shouldSave (-s) param is specified, app will save to JSON file with same name);
+            - bundle-css - merges all CSS files from directory (--path (-p) param) into one file and saves 
+        it to this directory.
+    2. --help (-h) - help information.
     `);
 }
 
@@ -138,7 +132,7 @@ function doAction(params) {
 }
 
 function processInput(argv) {
-    if (argv.help || argv.h) {
+    if (argv.help) {
         printHelpMessage();
     } else if (argv.action) {
         let paramsObj = {
@@ -150,7 +144,7 @@ function processInput(argv) {
 
         doAction(paramsObj);
     } else {
-        console.log('wrong input');
+        console.error('ERROR! Wrong input!');
         printHelpMessage();
     }
 }
@@ -170,4 +164,3 @@ if (require.main === module) {
 } else {
     module.exports = processInput;
 }
-
