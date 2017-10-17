@@ -41,14 +41,14 @@ function transformFile(filePath, shouldSave) {
 
     let processedFilePath = path.resolve(filePath);
     let reader = fs.createReadStream(processedFilePath);
-    let isFirstRaw = true;
+    let isFirstRow = true;
     let jsonFilePath = processedFilePath.replace('.csv', '.json');
     let destinationStream = shouldSave ? fs.createWriteStream(jsonFilePath) : process.stdout;
 
     let transformCallback = function(chunk, encoding, callback) {
-        if (isFirstRaw) {
+        if (isFirstRow) {
             callback(null, '[' + JSON.stringify(chunk));
-            isFirstRaw = false;
+            isFirstRow = false;
         } else {
             callback(null, ',' + JSON.stringify(chunk));
         }  
