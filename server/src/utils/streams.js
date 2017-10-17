@@ -25,12 +25,14 @@ function transform() {
         .pipe(process.stdout);
 }
 
-function transformFile(filePath) {
+function transformFile(filePath, shouldSave) {
     let reader = fs.createReadStream(filePath);
     let isFirstRaw = true;
+    let jsonFilePath = filePath.replace('.csv', '.json');
+    let destinationStream = shouldSave ? fs.createWriteStream(jsonFilePath) : process.stdout;
 
     let transformCallback = function(chunk, encoding, callback) {
-        if (!isFirstRaw) {
+        if (isFirstRaw) {
             callback(null, '[' + JSON.stringify(chunk));
             isFirstRaw = false;
         } else {
@@ -45,11 +47,12 @@ function transformFile(filePath) {
     reader
         .pipe(csv.parse())
         .pipe(through.obj(transformCallback, flushCallback))
-        .pipe(process.stdout);
-    
+        .pipe(destinationStream);
 }
 
-transformFile(__dirname + '/MOCK_DATA.csv')
+
+
+transformFile(__dirname + '/MOCK_DATA.csv', true)
 
 //transform();
 //inputOutput(__dirname + '/streams.js');
