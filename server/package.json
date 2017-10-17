@@ -28,6 +28,7 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
+    "csv": "^1.1.1",
     "minimist": "^1.2.0"
   }
 }

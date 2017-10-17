@@ -2,7 +2,8 @@ const minimist = require('minimist');
 const through = require('through2');
 const request = require('request');
 const fs = require('fs');
-const path = require('path');
+//const path = require('path');
+const csv = require('csv');
 
 const ACTIONS = {
     IO: 'io'
@@ -19,9 +20,36 @@ function transform() {
         callback(null, transformedChunk);
     };
 
-    process.stdin.pipe(through(transformCallback)).pipe(process.stdout);
+    process.stdin
+        .pipe(through(transformCallback))
+        .pipe(process.stdout);
 }
 
+function transformFile(filePath) {
+    let reader = fs.createReadStream(filePath);
+    let isFirstRaw = true;
+
+    let transformCallback = function(chunk, encoding, callback) {
+        if (!isFirstRaw) {
+            callback(null, '[' + JSON.stringify(chunk));
+            isFirstRaw = false;
+        } else {
+            callback(null, ',' + JSON.stringify(chunk));
+        }  
+    };
+
+    let flushCallback = function(callback) {
+        callback(null, ']');
+    };
+
+    reader
+        .pipe(csv.parse())
+        .pipe(through.obj(transformCallback, flushCallback))
+        .pipe(process.stdout);
+    
+}
+
+transformFile(__dirname + '/MOCK_DATA.csv')
 
 //transform();
 //inputOutput(__dirname + '/streams.js');
