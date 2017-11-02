@@ -11,6 +11,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/api/products', routers.productsRouter);
-//app.use('/api/users/', routers.usersRouter);
+app.use('/api/users/', routers.usersRouter);
 
 export default app;
