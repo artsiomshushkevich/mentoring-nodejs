@@ -5,7 +5,7 @@ import path from 'path';
 const htmlServer = http.createServer();
 
 htmlServer.on('request', (req, res) => {
-    const htmlFile = fs.readFileSync(path.resolve('./src/http-servers/index.html'));
+    const htmlFile = fs.readFileSync(path.resolve('./src/http-servers/data/index.html'));
     const htmlFileContent = htmlFile.toString().replace('{message}', 'Any message');
 
     res.writeHead(200, {
