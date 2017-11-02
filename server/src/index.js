@@ -1,9 +1,9 @@
 'use strict';
 
-const config = require('../config/config.json');
-import models from './models';
+import app from './app/app';
 
-console.log(config.name);
+const port = process.env.PORT || 8080; 
+app.listen(port, () => console.log(`App listening on port ${port}!`));
 
-let user = new models.User();
-let product = new models.Product();
+
+
