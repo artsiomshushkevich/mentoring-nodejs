@@ -4,7 +4,7 @@ const path = require('path');
 const through = require('through2');
 
 const htmlServer = http.createServer();
-const htmlFilePath = path.resolve('./server/src/http-servers/data/index.html');
+const htmlFilePath = path.resolve('./data/index.html');
 const message = 'Any messsage';
 
 function sendStaticContent(res) {
