@@ -65,13 +65,16 @@ export default class Product {
     }
 
     getById(id) {
+        let desiredProduct = null;
+    
         for (let i = 0; i < mockedProducts.length; i++){
             if (mockedProducts[i].id === id) {
-                return mockedProducts[i]
+                desiredProduct = mockedProducts[i];
+                break;
             }
         }
-
-        return null;
+     
+        return desiredProduct;
     }
 
     getReviewsByProductId(id) {
