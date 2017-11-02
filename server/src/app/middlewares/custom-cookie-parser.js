@@ -12,6 +12,5 @@ function parseCookies(req) {
 
 export default (req, res, next) => {
     req.parsedCookies = parseCookies(req);
-    console.dir(req.parsedCookies)
     next();
 };
