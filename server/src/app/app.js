@@ -44,24 +44,23 @@ app.post('/api/auth', function (req, res) {
     }
 });
 
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
-// passport.use(new LocalStrategy({
-//     function(username, password, done) {
-//         const hardcodedUsername = 'admin';
-//         const hardcodedpassword = '12345678';
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        const user = _.find(mockedUsers, {username, password});
 
-//         if (username === hardcodedUsername && password === hardcodedPassword) {
-//             return done(null, {username: hardcodedUsername, password: hardcodedPassword });
-//         } 
+        if (user) {
+            return done(null, user);
+        }
 
-//         return done(null, false, {mesasge: 'you are one the wrong side'});
-//     }
-// }))
+        return done(null, false, {message: 'you are one the wrong side'});
+    }
+));
 
-// app.post('/auth', passport.authenticate('local'), function(req, res) {
-
-// });
+app.post('/api/auth-local', passport.authenticate('local', {session: false}), function(req, res) {
+    res.sendStatus(200);
+});
 
 app.use('/api/products', routers.productsRouter);
 app.use('/api/users/', routers.usersRouter);

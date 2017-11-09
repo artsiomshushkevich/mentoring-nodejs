@@ -5,10 +5,6 @@ const product = new Product();
 export default class ProductsController {
     getAll(req, res) {
         res.json(product.getAll());
-        console.log('asdad')
-
-        console.log('asddas')
-        console.log('adasd')
     }
 
     getById(req, res) {
