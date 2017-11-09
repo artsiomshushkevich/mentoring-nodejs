@@ -1,12 +1,15 @@
 import express from 'express';
 import ProductsController from '../controllers/products-controller';
+import checkToken from '../middlewares/custom-token-check';
 
-const router = express.Router();
+const productsRouter = express.Router();
 const productsController = new ProductsController(); 
 
-router.get('/', productsController.getAll);
-router.get('/:id', productsController.getById);
-router.get('/:id/reviews', productsController.getRiviewsByProductId);
-router.post('/', productsController.addOne);
+productsRouter.use(checkToken);
 
-export default router;
+productsRouter.get('/', productsController.getAll);
+productsRouter.get('/:id', productsController.getById);
+productsRouter.get('/:id/reviews', productsController.getRiviewsByProductId);
+productsRouter.post('/', productsController.addOne);
+
+export default productsRouter;
