@@ -1,3 +1,5 @@
+'use strict';
+
 import express from 'express';
 import AuthController from '../controllers/auth-controller';
 import passport from '../config/passport';
@@ -7,7 +9,9 @@ const authController = new AuthController();
 
 authRouter.post('/', authController.authenticateViaCustomStrategy);
 
-authRouter.post('/local', passport.authenticate('local'), authController.authenticateViaLocalStrategy);
+authRouter.post('/local', passport.authenticate('local',{
+    failureRedirect: '/error'
+}), authController.authenticateViaLocalStrategy);
 
 authRouter.get('/google', passport.authenticate('google', {scope: ['profile']}));
 authRouter.get('/google/callback', passport.authenticate('google', {
@@ -16,7 +20,7 @@ authRouter.get('/google/callback', passport.authenticate('google', {
 
 authRouter.get('/facebook', passport.authenticate('facebook'));
 authRouter.get('/facebook/callback', passport.authenticate('facebook', {
-    failureRedirect: '/',
+    failureRedirect: '/error',
 }), authController.authenticateViaFacebookStrategy);
 
 authRouter.get('/twitter', passport.authenticate('twitter'));

@@ -1,12 +1,14 @@
+'use strict';
+
 import {default as jwt} from 'jsonwebtoken';
 
-const config = require('../config/conig.json');
+const config = require('../config/config.json');
 
-export default function(req, res, next) {
+export default (req, res, next) => {
     const token = req.get('Authorization');
 
     if (token) {
-        jwt.verify(token, config.secretWord, (err, payload) => {
+        jwt.verify(token, config.secretJWTWord, (err, payload) => {
             if (err) {
                return res.status(500).json({message: 'Invalid authorization token!'});
             }

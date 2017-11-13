@@ -1,3 +1,5 @@
+'use strict';
+
 import express from 'express';
 import ProductsController from '../controllers/products-controller';
 import checkToken from '../middlewares/custom-token-check';

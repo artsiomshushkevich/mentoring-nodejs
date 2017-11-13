@@ -1,3 +1,5 @@
+'use strict';
+
 import Product from '../models/product';
 
 const product = new Product();

@@ -1,3 +1,5 @@
+'use strict';
+
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {Strategy as TwitterStrategy} from 'passport-twitter';
@@ -6,10 +8,10 @@ import {Strategy as FacebookStrategy} from 'passport-facebook';
 import mockedUsers from '../mocks/users';
 import {default as _} from 'lodash';
 
-const config = require('./conig.json');
+const config = require('./config.json');
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    (username, password, done) => {
         const user = _.find(mockedUsers, {username, password});
 
         if (user) {
@@ -25,8 +27,8 @@ passport.use(new TwitterStrategy({
         consumerSecret: config.twitterAuth.consumerSecret,
         callbackURL: config.twitterAuth.callbackURL
     },
-    function(token, tokenSecret, profile, done) {
-        return done(null, profile)
+    (token, tokenSecret, profile, done) => {
+        return done(null, profile);
     }
 ));
 
@@ -35,7 +37,7 @@ passport.use(new FacebookStrategy({
     clientSecret: config.facebookAuth.clientSecret,
     callbackURL: config.facebookAuth.callbackURL
   },
-  function(accessToken, refreshToken, profile, done) {
+  (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
   }
 ));
@@ -45,7 +47,7 @@ passport.use(new GoogleStrategy({
     clientSecret: config.facebookAuth.clientSecret,
     callbackURL: config.facebookAuth.callbackURL
   },
-  function(accessToken, refreshToken, profile, done) {
+  (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
   }
 ));
@@ -56,16 +58,16 @@ passport.use(new GoogleStrategy({
     callbackURL: config.googleAuth.callbackURL,
     scope: ['profile']
   },
-  function(accessToken, refreshToken, profile, done) {  
+  (accessToken, refreshToken, profile, done) => {  
       return done(null, profile);
   }
 ));
 
-passport.serializeUser(function(user, callback) {
+passport.serializeUser((user, callback) => {
     callback(null, user);
 });
 
-passport.deserializeUser(function(obj, callback) {
+passport.deserializeUser((obj, callback) => {
     callback(null, obj);
 });
 

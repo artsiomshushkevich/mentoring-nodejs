@@ -1,19 +1,22 @@
+'use strict';
+
 import {default as jwt} from 'jsonwebtoken';
 import {default as _} from 'lodash';
 import mockedUsers from '../mocks/users';
 
-const config = require ('../config/conig.json');
+const config = require ('../config/config.json');
 
 export default class AuthController {
     authenticateViaCustomStrategy(req, res) {
         const searchEntry = {
-            username: req.body.username
+            username: req.body.username,
+            password: req.body.password
         };
     
         const user = _.find(mockedUsers, searchEntry);
     
         if (user) {
-            const token = jwt.sign({username: user.username, id: user.id}, config.secretWord);
+            const token = jwt.sign({username: user.username, id: user.id}, config.secretJWTWord);
     
             res.status(200).json({
                 data: {
@@ -25,7 +28,7 @@ export default class AuthController {
                 token: token
             });
         } else {
-            res.status(403).json({message: 'User with such credentials has not found!'})
+            res.status(403).json({message: 'User with such credentials has not found!'});
         }
     }
 

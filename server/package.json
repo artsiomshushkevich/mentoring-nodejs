@@ -40,7 +40,6 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "pug": "^2.0.0-rc.4",
-    "through2": "^2.0.3"
+    "pug": "^2.0.0-rc.4"
   }
 }

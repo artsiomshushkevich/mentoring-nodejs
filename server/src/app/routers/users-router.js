@@ -1,3 +1,5 @@
+'use strict';
+
 import express from 'express';
 import UsersController from '../controllers/users-controller';
 import checkToken from '../middlewares/custom-token-check';

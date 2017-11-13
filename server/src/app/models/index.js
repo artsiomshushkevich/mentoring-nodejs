@@ -1,3 +1,5 @@
+'use strict';
+
 import User from './user';
 import Product from './product';
 
