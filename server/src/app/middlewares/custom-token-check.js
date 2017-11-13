@@ -5,7 +5,7 @@ export default function(req, res, next) {
     const token = req.get('Authorization');
 
     if (token) {
-        jwt.verify(token, config.secretWord, (err, payload) => {
+        jwt.verify(token, config.SECRET_WORD, (err, payload) => {
             if (err) {
                 res.sendStatus(500);
             }

@@ -1,0 +1,10 @@
+
+block content
+    a(href="/api/auth/facebook") facebook auth
+    br
+    a(href="/api/auth/twitter") twitter auth
+    br
+    a(href="/api/auth/google") google auth
+    br
+    if user
+        span  #{user.displayName} provider: #{user.provider}

@@ -1,3 +1,19 @@
 {
-    "secretWord": "adad=%!VdsdAasd213213asd"
+    "SECRET_WORD": "adad=%!VdsdAasd213213asd",
+
+    "facebookAuth": {
+        "clientID": "970001579814277",
+        "clientSecret": "ceeb8a8f94be57aa1e07318ff27c6bec",
+        "callbackURL": "http://localhost:8080/api/auth/facebook/callback/"
+    },
+    "twitterAuth": {
+        "consumerKey": "yPaCIpIONbMLDDomPQWx2BD6g",
+        "consumerSecret": "Ub7j7BvDM8GM1lMAIIu6XFPzGLVH9UDziTeKuIhFndevQADRj3",
+        "callbackURL": "http://localhost:8080/api/auth/twitter/callback/"
+    },
+    "googleAuth": {
+        "clientID": "730117771433-t9dfvkmlpumsn58dl3rek8jg1hjhnjqu.apps.googleusercontent.com",
+        "clientSecret": "lp7VpiOF4b_x954MCLoIPzNe",
+        "callbackURL": "http://localhost:8080/api/auth/google/callback/"
+    }
 }
