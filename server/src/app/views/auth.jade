@@ -1,0 +1,20 @@
+
+block content
+    form(method='POST' action='/api/auth/local')
+        div
+            label(for='username') Name:
+            input#username(type='text', placeholder='type username' name='username')
+        div
+            label(for='pw') Password:
+            input#pw(type='password' name='password')
+        div
+            button.btn.btn-primary(type='submit') Sign in
+            
+    a(href="/api/auth/facebook") facebook auth
+    br
+    a(href="/api/auth/twitter") twitter auth
+    br
+    a(href="/api/auth/google") google auth
+    br
+    if user
+        span  #{user.displayName} provider: #{user.provider}

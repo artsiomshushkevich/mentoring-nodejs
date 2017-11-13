@@ -4,6 +4,7 @@ import {Strategy as TwitterStrategy} from 'passport-twitter';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 import mockedUsers from '../mocks/users';
+import {default as _} from 'lodash';
 
 const config = require('./conig.json');
 
@@ -12,10 +13,10 @@ passport.use(new LocalStrategy(
         const user = _.find(mockedUsers, {username, password});
 
         if (user) {
-            return done(null, user);
+            return done(null, {displayName: user.username, provider: 'local'});
         }
 
-        return done(null, false, {message: 'you are one the wrong side'});
+        return done(null, false, {message: 'invalid credentials'});
     }
 ));
 
