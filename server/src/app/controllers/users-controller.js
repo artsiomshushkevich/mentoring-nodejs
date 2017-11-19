@@ -1,11 +1,13 @@
 'use strict';
 
-import User from '../models/user';
+import {User} from '../database/models/';
 
-const user = new User();
+// const user = new User();
 
 export default class UsersController {
     getAll(req, res) {
-        res.json(user.getAll());        
+        User.findAll()
+            .then((users) => res.json(users));
+        //res.json(user.getAll());        
     }
 }

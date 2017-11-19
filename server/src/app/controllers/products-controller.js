@@ -1,12 +1,12 @@
 'use strict';
 
-import Product from '../models/product';
-
-const product = new Product();
+import {Product} from '../database/models/';
 
 export default class ProductsController {
     getAll(req, res) {
-        res.json(product.getAll());
+        Product.findAll()
+            .then(products => res.json(products));
+        // res.json(product.getAll());
     }
 
     getById(req, res) {
