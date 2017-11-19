@@ -2,12 +2,9 @@
 
 import {User} from '../database/models/';
 
-// const user = new User();
-
 export default class UsersController {
-    getAll(req, res) {
-        User.findAll()
-            .then((users) => res.json(users));
-        //res.json(user.getAll());        
-    }
+    async getAll(req, res) {
+        const users = await User.findAll();
+        res.json(users);
+    }  
 }

@@ -16,7 +16,11 @@ module.exports = {
       },
       price: {
         type: Sequelize.INTEGER
+      },
+      reviews: {
+        type: Sequelize.STRING
       }
+
     });
   },
   down: (queryInterface, Sequelize) => {

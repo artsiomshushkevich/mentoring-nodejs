@@ -3,22 +3,30 @@
 import {Product} from '../database/models/';
 
 export default class ProductsController {
-    getAll(req, res) {
-        Product.findAll()
-            .then(products => res.json(products));
-        // res.json(product.getAll());
+    async getAll(req, res) {
+        const products = await Product.findAll();
+        res.json(products);
     }
 
-    getById(req, res) {
-        res.json(product.getById(+req.params.id));
+    async getById(req, res) {
+        const product = await Product.findById(+req.params.id);
+        res.json(product);
     }
 
-    getRiviewsByProductId(req, res) {
-        res.json(product.getReviewsByProductId(+req.params.id));
+    async getRiviewsByProductId(req, res) {
+        const product = await Product.findById(+req.params.id);
+        const reviews = JSON.parse(product.reviews);
+        res.json(reviews);
     }
 
-    addOne(req, res) {
-        let addedProduct = product.addOne(req.body);
+    async addOne(req, res) {
+        const productFromRequest = {
+            name: req.body.name,
+            brand: req.body.brand,
+            price: req.body.price
+        };
+
+        const addedProduct = await Product.create(productFromRequest);
         res.json(addedProduct);
     }
 }
