@@ -2,8 +2,10 @@
 
 import User from './user';
 import Product from './product';
+import City from './city';
 
 export default {
     User: User,
-    Product: Product
+    Product: Product,
+    City: City
 };

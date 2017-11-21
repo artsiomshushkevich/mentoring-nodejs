@@ -5,19 +5,19 @@ import Product from '../models/product';
 const product = new Product();
 
 export default class ProductsController {
-    getAll(req, res) {
+    async getAll(req, res) {
         res.json(product.getAll());
     }
 
-    getById(req, res) {
+    async getById(req, res) {
         res.json(product.getById(+req.params.id));
     }
 
-    getRiviewsByProductId(req, res) {
+    async getRiviewsByProductId(req, res) {
         res.json(product.getReviewsByProductId(+req.params.id));
     }
 
-    addOne(req, res) {
+    async addOne(req, res) {
         let addedProduct = product.addOne(req.body);
         res.json(addedProduct);
     }

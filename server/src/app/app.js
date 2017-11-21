@@ -6,10 +6,15 @@ import bodyParser from 'body-parser';
 import passport from './config/passport';
 import {default as expressSession} from 'express-session';
 import path from 'path';
+import mongoose from 'mongoose';
 
 const config = require('./config/config.json');
 
+
 const app = express();
+
+mongoose.connect(config.mongodbUrl);
+mongoose.Promise = global.Promise;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

@@ -1,32 +1,22 @@
 'use strict';
 
-import mockedProducts from '../mocks/products';
+import mongoose from 'mongoose';
 
-export default class Product {
-    getAll() {
-        return mockedProducts;
-    }
-
-    getById(id) {
-        let desiredProduct = null;
-    
-        for (let i = 0; i < mockedProducts.length; i++){
-            if (mockedProducts[i].id === id) {
-                desiredProduct = mockedProducts[i];
-                break;
-            }
+const productShema = new mongoose.Schema({
+    name: String, 
+    brand: String, 
+    price: Number, 
+    options: [ 
+        { color: String }, 
+        { size: String } 
+    ],
+    reviews: [
+        {
+            id: Number,
+            message: String,
+            grade: String
         }
-     
-        return desiredProduct;
-    }
+    ]
+});
 
-    getReviewsByProductId(id) {
-        const product = this.getById(id);
-        return product ? product.reviews : null;
-    }
-
-    addOne(productObj) {
-        mockedProducts.push(productObj);
-        return productObj;
-    }
-}
+export default mongoose.model('Product', productShema);
