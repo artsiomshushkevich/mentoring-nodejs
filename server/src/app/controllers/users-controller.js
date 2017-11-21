@@ -7,4 +7,14 @@ export default class UsersController {
         const users = await User.find({});
         res.json(users);        
     }
+
+    async removeOne(req, res) {
+        const userId = req.params.id;
+        const result = await User.remove({_id: userId});
+
+        res.json({message: 'user successfully deleted'});
+    }
+
+    
+
 }

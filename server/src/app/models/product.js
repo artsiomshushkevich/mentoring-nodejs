@@ -10,13 +10,10 @@ const productShema = new mongoose.Schema({
         { color: String }, 
         { size: String } 
     ],
-    reviews: [
-        {
-            id: Number,
+    reviews: [{
             message: String,
             grade: String
-        }
-    ]
+    }]
 });
 
 export default mongoose.model('Product', productShema);
