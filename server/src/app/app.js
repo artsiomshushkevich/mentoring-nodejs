@@ -33,6 +33,7 @@ app.use(passport.session());
 app.use('/api/auth', routers.authRouter)
 app.use('/api/products', routers.productsRouter);
 app.use('/api/users', routers.usersRouter);
+app.use('/api/cities', routers.citiesRouter);
 
 app.get('/', function (req, res) {
     res.render('auth', {user: req.user});
