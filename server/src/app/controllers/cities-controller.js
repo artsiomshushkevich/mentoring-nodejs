@@ -25,10 +25,15 @@ export default class CitiesController {
             }
         };
 
-        var newCityModel = new City(newCity);
-        const result = await newCityModel.save();
-
-        res.json({message: 'city successfully saved'});
+        try {
+            var newCityModel = new City(newCity);
+            const result = await newCityModel.save();
+    
+            res.json({message: 'city successfully saved'});
+        } catch(err) {
+            res.status(500).json(err);
+        }
+        
     }
 
     async updateOne(req, res) {
@@ -43,8 +48,12 @@ export default class CitiesController {
             }
         };
 
-        const result = await City.findByIdAndUpdate(updatedCityId, updatedCity, {new: true});
-
-        res.json({message: 'city successfully updated'});
+        try {
+            const result = await City.findByIdAndUpdate(updatedCityId, updatedCity, {new: true});
+            
+            res.json({message: 'city successfully updated'});
+        } catch(err) {
+            res.status(500).json(err);
+        }
     }
 }

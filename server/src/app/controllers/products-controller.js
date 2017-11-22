@@ -32,10 +32,15 @@ export default class ProductsController {
             reviews: []
         };
 
-        var newProductModel = new Product(newProduct);
-        const result = await newProductModel.save();
-
-        res.json({message: 'product successfully saved'});
+        try {
+            var newProductModel = new Product(newProduct);
+            const result = await newProductModel.save();
+    
+            res.json({message: 'product successfully saved'});
+        } catch(err) {
+            res.status(500).json(err);
+        }
+        
     }
 
     async removeById(req, res) {
