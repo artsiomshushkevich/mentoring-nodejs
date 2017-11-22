@@ -1,7 +1,6 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import jsValidator from 'validator';
 
 const citySchema = new mongoose.Schema({
     name: {
@@ -16,7 +15,9 @@ const citySchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         validate: {
-            validator: value => jsValidator.isBoolean(value),
+            validator: (value) => {
+                return typeof value === 'boolean';
+            },
             message: 'capital value is not boolean'
         }
     },
@@ -33,7 +34,10 @@ const citySchema = new mongoose.Schema({
             min: -180,
             max: 180
         }
-    }
+    },
+    lastModifiedDate: Date
+},{
+    strict: false
 });   
 
 export default mongoose.model('City', citySchema);

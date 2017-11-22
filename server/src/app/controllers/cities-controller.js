@@ -14,7 +14,7 @@ export default class CitiesController {
         res.json({message: 'city successfully deleted'});
     }
     
-    async addOne(req, res) {
+    async addOne(req, res, next) {
         const newCity = {
             name: req.body.name,
             country: req.body.country,
@@ -28,15 +28,19 @@ export default class CitiesController {
         try {
             var newCityModel = new City(newCity);
             const result = await newCityModel.save();
-    
-            res.json({message: 'city successfully saved'});
+            
+            req.updatedModel = City;
+            req.documentId = result.id;
+
+            next();
+            // res.json({message: 'city successfully saved'});
         } catch(err) {
             res.status(500).json(err);
         }
         
     }
 
-    async updateOne(req, res) {
+    async updateOne(req, res, next) {
         const updatedCityId = req.params.id;
         const updatedCity = {
             name: req.body.name,
@@ -51,7 +55,12 @@ export default class CitiesController {
         try {
             const result = await City.findByIdAndUpdate(updatedCityId, updatedCity, {new: true});
             
-            res.json({message: 'city successfully updated'});
+            req.updatedModel = City;
+            req.documentId = result.id;
+
+            next();
+
+            // res.json({message: 'city successfully updated'});
         } catch(err) {
             res.status(500).json(err);
         }

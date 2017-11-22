@@ -20,7 +20,7 @@ export default class ProductsController {
         res.json(product.reviews);
     }
 
-    async addOne(req, res) {
+    async addOne(req, res, next) {
         const newProduct = {
             name: req.body.name, 
             brand: req.body.brand, 
@@ -35,8 +35,12 @@ export default class ProductsController {
         try {
             var newProductModel = new Product(newProduct);
             const result = await newProductModel.save();
-    
-            res.json({message: 'product successfully saved'});
+            
+            req.updatedModel = Product;
+            req.documentId = result.id;
+
+            next();
+            // res.json({message: 'product successfully saved'});
         } catch(err) {
             res.status(500).json(err);
         }
