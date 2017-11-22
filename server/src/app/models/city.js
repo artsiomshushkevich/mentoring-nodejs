@@ -34,8 +34,7 @@ const citySchema = new mongoose.Schema({
             min: -180,
             max: 180
         }
-    },
-    lastModifiedDate: Date
+    }
 },{
     strict: false
 });   

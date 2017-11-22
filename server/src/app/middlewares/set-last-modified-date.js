@@ -1,7 +1,7 @@
 export default async (req, res) => {
     const updatedModel= req.updatedModel;
     const documentId = req.documentId;
-    const currentDate = Date.now();
+    const currentDate = new Date();
 
     try {
         const result = await updatedModel.findByIdAndUpdate(documentId, {

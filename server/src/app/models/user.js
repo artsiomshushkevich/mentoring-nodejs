@@ -25,8 +25,7 @@ const userShema = new mongoose.Schema({
             },
             message: 'incorrect email format'
         }
-    },
-    lastModifiedDate: Date
+    }
 }, {
     strict: false
 });
