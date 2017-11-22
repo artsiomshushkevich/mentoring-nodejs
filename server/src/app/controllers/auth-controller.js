@@ -1,19 +1,18 @@
 'use strict';
 
 import {default as jwt} from 'jsonwebtoken';
-import {default as _} from 'lodash';
-import mockedUsers from '../mocks/users';
+import User from '../models/user';
 
 const config = require ('../config/config.json');
 
 export default class AuthController {
-    authenticateViaCustomStrategy(req, res) {
+    async authenticateViaCustomStrategy(req, res) {
         const searchEntry = {
             username: req.body.username,
             password: req.body.password
         };
     
-        const user = _.find(mockedUsers, searchEntry);
+        const user = await User.findOne(searchEntry);
     
         if (user) {
             const token = jwt.sign({username: user.username, id: user.id}, config.secretJWTWord);
