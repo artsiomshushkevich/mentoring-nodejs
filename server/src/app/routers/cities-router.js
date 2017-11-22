@@ -5,10 +5,13 @@ import CitiesController from '../controllers/cities-controller';
 import checkToken from '../middlewares/custom-token-check';
 
 const citiesController = new CitiesController();
-const usersRouter = express.Router();
+const citiesRouter = express.Router();
 
-usersRouter.use(checkToken);
+citiesRouter.use(checkToken);
 
-usersRouter.get('/', checkToken, citiesController.getAll);
+citiesRouter.get('/', checkToken, citiesController.getAll);
+citiesRouter.post('/', checkToken, citiesController.addOne);
+citiesRouter.delete('/:id', checkToken, citiesController.removeOne);
+citiesRouter.put('/:id', checkToken, citiesController.updateOne);
 
-export default usersRouter;
+export default citiesRouter;

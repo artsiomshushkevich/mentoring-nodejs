@@ -7,4 +7,44 @@ export default class CitiesController {
         const cities = await City.find({});
         res.json(cities);
     }
+
+    async removeOne(req, res) {
+        const cityId = req.params.id;
+        const result = await City.remove({_id: cityId});
+        res.json({message: 'city successfully deleted'});
+    }
+    
+    async addOne(req, res) {
+        const newCity = {
+            name: req.body.name,
+            country: req.body.country,
+            capital: req.body.capital,
+            location: {
+                lat: req.body.lat,
+                long: req.body.long
+            }
+        };
+
+        var newCityModel = new City(newCity);
+        const result = await newCityModel.save();
+
+        res.json({message: 'city successfully saved'});
+    }
+
+    async updateOne(req, res) {
+        const updatedCityId = req.params.id;
+        const updatedCity = {
+            name: req.body.name,
+            country: req.body.country,
+            capital: req.body.capital,
+            location: {
+                lat: req.body.lat,
+                long: req.body.long
+            }
+        };
+
+        const result = await City.findByIdAndUpdate(updatedCityId, updatedCity, {new: true});
+
+        res.json({message: 'city successfully updated'});
+    }
 }
